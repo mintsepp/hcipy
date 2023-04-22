@@ -55,3 +55,33 @@ def make_las_campanas_atmospheric_layers(input_grid, r0=0.16, L0=25, wavelength=
 		layers.append(InfiniteAtmosphericLayer(input_grid, cn, L0, v, h, 2))
 
 	return layers
+
+def make_HV57_atmospheric_layers(input_grid, L0=25):
+	'''Creates a ten layer atmosphere for Hufnagel-Valley model with Bufton wind.
+
+	The layer parameters are based on theory from [Andrews2006]_.
+
+	.. [Andrews2006] L. C. Andrews and R. L. Phillips, Laser Beam Propagation Through Random Media
+		(Society of Photo Optical, 2005).
+
+		Parameters
+		----------
+		input_grid : Grid
+			The grid on which the incoming wavefront is defined.
+		L0 : scalar
+			The outer scale of the atmosphere
+
+		Returns
+		-------
+		list
+			A list of turbulence layers.
+		'''
+	heights = np.linspace(250,25000,10)
+	velocities = np.array([8.7925, 13.0704, 24.8266, 36.9636, 33.8588, 19.9747, 10.8762, 8.3583, 8.0233, 8.0008])
+	Cn_squared = np.array([1.6226e-12, 4.2760e-13, 5.0330e-14, 3.3898e-14, 4.4593e-14, 3.3403e-14, 1.5743e-14, 5.3596e-15, 1.4406e-15, 3.239e-16])
+
+	layers = []
+	for h, v, cn in zip(heights, velocities, Cn_squared):
+		layers.append(InfiniteAtmosphericLayer(input_grid, cn, L0, v, h, 2))
+
+	return layers
