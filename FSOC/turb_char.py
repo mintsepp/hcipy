@@ -27,12 +27,18 @@ for i in range(samples):
 
 wf = Wavefront(Field(np.ones(pupil_grid.size), pupil_grid), wavelength)
 wf.electric_field *= aperture
+p = np.exp(-(pupil_grid.as_('polar').r/1.8)**20)
+wf = Wavefront(Field(p, pupil_grid), wavelength)
 wf_diffrac = FresnelPropagator(pupil_grid, 20889.81772516)(wf)
 wf_diffrac.electric_field = wf.electric_field-wf_diffrac.electric_field*aperture
 
-plt.subplot(121)
+plt.subplot(141)
+imshow_field(wf.amplitude)
+plt.subplot(142)
+imshow_field(wf.phase)
+plt.subplot(143)
 imshow_field(wf_diffrac.amplitude)
-plt.subplot(122)
+plt.subplot(144)
 imshow_field(wf_diffrac.phase)
 plt.show()
 
@@ -57,7 +63,7 @@ for i in range(samples):
     print("Cn2", atmosphere.Cn_squared)
 
     wf_t = atmosphere.forward(wf)
-    wf_t.electric_field*aperture
+    wf_t.electric_field*=aperture
     #wf_t.electric_field -= wf_diffrac.electric_field
 
     phases.append(wf_t.phase.flatten())
