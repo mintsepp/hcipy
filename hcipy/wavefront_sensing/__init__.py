@@ -12,6 +12,9 @@ __all__ = [
 	'ShackHartmannWavefrontSensorOptics',
 	'SquareShackHartmannWavefrontSensorOptics',
 	'ShackHartmannWavefrontSensorEstimator',
+	'FocusedPlenopticWavefrontSensorOptics',
+	'SquareFocusedPlenopticWavefrontSensorOptics',
+	'FocusedPlenopticWavefrontSensorEstimator',
 	'ZernikeWavefrontSensorOptics',
 	'ZernikeWavefrontSensorEstimator',
 	'VectorZernikeWavefrontSensorOptics'
@@ -20,5 +23,6 @@ __all__ = [
 from .optical_differentiation_wavefront_sensor import *
 from .pyramid import *
 from .shack_hartmann import *
+from .focused_plenoptic import *
 from .wavefront_sensor import *
 from .zernike_wavefront_sensor import *

@@ -5,7 +5,7 @@ import time
 
 # Characterize phase and intensity fluctuations
 
-# File to write in
+# File to read from
 filename = "turb_front_1.pickle"
 
 grid_size = 2048
