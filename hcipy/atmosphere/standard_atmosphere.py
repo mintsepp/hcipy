@@ -56,10 +56,10 @@ def make_las_campanas_atmospheric_layers(input_grid, r0=0.16, L0=25, wavelength=
 
 	return layers
 
-def make_HV57_atmospheric_layers(input_grid, L0=25):
-	'''Creates a ten layer atmosphere for Hufnagel-Valley model with Bufton wind.
-
-	The layer parameters are based on theory from [Andrews2006]_.
+def make_HV57_atmospheric_layers(input_grid, L0=25, strength=1):
+	'''Creates a five layer atmosphere for Hufnagel-Valley model with Bufton wind.
+	#TODO: add source for compression
+	The layer parameters are based on theory from [Andrews2006]_ and compressed with ??.
 
 	.. [Andrews2006] L. C. Andrews and R. L. Phillips, Laser Beam Propagation Through Random Media
 		(Society of Photo Optical, 2005).
@@ -69,17 +69,17 @@ def make_HV57_atmospheric_layers(input_grid, L0=25):
 		input_grid : Grid
 			The grid on which the incoming wavefront is defined.
 		L0 : scalar
-			The outer scale of the atmosphere
+			The outer scale of the atmosphere.
 
 		Returns
 		-------
 		list
 			A list of turbulence layers.
 		'''
-	heights = np.linspace(250,25000,10)
-	velocities = np.array([8.7925, 13.0704, 24.8266, 36.9636, 33.8588, 19.9747, 10.8762, 8.3583, 8.0233, 8.0008])
-	Cn_squared = np.array([1.6226e-12, 4.2760e-13, 5.0330e-14, 3.3898e-14, 4.4593e-14, 3.3403e-14, 1.5743e-14, 5.3596e-15, 1.4406e-15, 3.239e-16])
-
+	heights = np.array([616.19462052, 7832.84451292, 12168.23587393, 16724.5778265, 21506.01234568])
+	velocities = np.array([9.05384542, 34.96665728, 29.51168465, 10.92315246, 8.05183343])
+	Cn_squared = np.array([2.10098101e-12, 6.65139093e-14, 6.10804283e-14, 1.40578871e-14, 1.33430937e-15])
+	Cn_squared[-1] *= strength # Placeholder to make upper layer strong turbulence
 	layers = []
 	for h, v, cn in zip(heights, velocities, Cn_squared):
 		layers.append(InfiniteAtmosphericLayer(input_grid, cn, L0, v, h, 2))
