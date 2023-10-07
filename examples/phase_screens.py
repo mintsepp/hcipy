@@ -6,7 +6,7 @@ import time
 from hcipy.atmosphere import *
 
 pupil_grid = make_pupil_grid(256, 1)
-focal_grid = make_focal_grid(pupil_grid, 8, 16)
+focal_grid = make_focal_grid(8, 16)
 
 r0 = 0.3
 wavelength = 500e-9

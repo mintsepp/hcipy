@@ -17,7 +17,7 @@ filename = "turb_test.txt"
 grid_size = 256/2
 samples = 2
 wavelength = 1550e-9
-screen_size = 2
+screen_size = 1
 
 pupil_grid = make_pupil_grid(grid_size, screen_size)
 aperture = make_circular_aperture(screen_size)(pupil_grid)
@@ -60,11 +60,25 @@ for i in range(samples):
 
     phases = Wavefront(Field(np.ones(pupil_grid.size), pupil_grid), wavelength).phase
 
+
     for l in atmosphere2.layers:
         wf_p = l.forward(wf)
         phases += wf_p.phase
 
     phases *= aperture
+
+    true_phase = phases.flatten()
+    res_phase = []
+    n_samples = sum(aperture)
+
+    for t in true_phase:
+        res = t
+        if res > 0 and abs(res) < np.pi:
+            res_phase.append(res)
+
+    phs_var = np.var(res_phase)
+
+    print("PHS var", phs_var)
 
     wf_p = Wavefront(Field(np.ones(pupil_grid.size), pupil_grid), wavelength)
     wf_p.electric_field *= np.exp(1j*phases)

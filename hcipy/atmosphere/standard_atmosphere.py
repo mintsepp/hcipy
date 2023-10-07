@@ -56,7 +56,7 @@ def make_las_campanas_atmospheric_layers(input_grid, r0=0.16, L0=25, wavelength=
 
 	return layers
 
-def make_HV57_atmospheric_layers(input_grid, L0=25, strength=1):
+def make_HV57_atmospheric_layers(input_grid, L0=25):
 	'''Creates a five layer atmosphere for Hufnagel-Valley model with Bufton wind.
 	#TODO: add source for compression
 	The layer parameters are based on theory from [Andrews2006]_ and compressed with ??.
@@ -79,7 +79,6 @@ def make_HV57_atmospheric_layers(input_grid, L0=25, strength=1):
 	heights = np.array([616.19462052, 7832.84451292, 12168.23587393, 16724.5778265, 21506.01234568])
 	velocities = np.array([9.05384542, 34.96665728, 29.51168465, 10.92315246, 8.05183343])
 	Cn_squared = np.array([2.10098101e-12, 6.65139093e-14, 6.10804283e-14, 1.40578871e-14, 1.33430937e-15])
-	Cn_squared[-1] *= strength # Placeholder to make upper layer strong turbulence
 	layers = []
 	for h, v, cn in zip(heights, velocities, Cn_squared):
 		layers.append(InfiniteAtmosphericLayer(input_grid, cn, L0, v, h, 2))

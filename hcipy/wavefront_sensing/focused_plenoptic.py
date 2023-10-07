@@ -9,7 +9,7 @@ from scipy import ndimage
 class FocusedPlenopticWavefrontSensorOptics(WavefrontSensorOptics):
 	def __init__(self, input_grid, objective_lens, micro_lens_array):
 		# Make propagators
-		fp_prop_obj = FresnelPropagator(input_grid,micro_lens_array.focal_length+objective_lens.focal_length)
+		fp_prop_obj = FresnelPropagator(input_grid,objective_lens.focal_length+micro_lens_array.focal_length)
 		fp_prop_mla = FresnelPropagator(input_grid,micro_lens_array.focal_length)
 
 		# Make optical system

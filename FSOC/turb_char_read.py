@@ -6,9 +6,9 @@ import time
 # Characterize phase and intensity fluctuations
 
 # File to read from
-filename = "turb_front_1.pickle"
+filename = "turb_hv57.pickle"
 
-grid_size = 2048
+grid_size = 2048/4
 wavelength = 1550e-9
 screen_size = 2
 

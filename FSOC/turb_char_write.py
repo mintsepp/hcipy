@@ -7,9 +7,9 @@ import datetime
 # Characterize phase and intensity fluctuations
 
 # File to write in
-filename = "turb_test.pickle"
+filename = "turb_hv57_turbo.pickle"
 
-grid_size = 2048/2
+grid_size = 2048/8
 wavelength = 1550e-9
 screen_size = 2
 
@@ -24,16 +24,32 @@ wf = Wavefront(Field(p, pupil_grid), wavelength)
 
 print("Started:", datetime.datetime.now().time(), "and done in ~", 9e-5*grid_size**2, "seconds.")
 t0 = time.perf_counter()
-HV57_layers = make_HV57_atmospheric_layers(pupil_grid, 25)
+HV57_layers = make_HV57_atmospheric_layers(pupil_grid, 1)
 # Increase turbulence strength at high altitude
-#HV57_layers[-1].Cn_squared *= 10000000
-HV57_layers[0].Cn_squared *= 100
+#HV57_layers[0].Cn_squared *= 10
+'''
+HV57_layers[0].Cn_squared *= 100000
+HV57_layers[1].Cn_squared *= 100000
+HV57_layers[2].Cn_squared *= 100000
+HV57_layers[3].Cn_squared *= 100000
+HV57_layers[4].Cn_squared *= 100000
+'''
 
 atmosphere = MultiLayerAtmosphere(HV57_layers, True)
 t1 = time.perf_counter()
 print(f"Generated in {t1 - t0:0.4f} seconds.")
 
 print("Atmosphere r0:", fried_parameter_from_Cn_squared(atmosphere.Cn_squared))
+print("Atmosphere Cn2:",atmosphere.Cn_squared)
+
+layers2 = make_las_campanas_atmospheric_layers(pupil_grid,25)
+atmos2 = MultiLayerAtmosphere(layers2,True)
+
+print("Atmosphere2 r0:", fried_parameter_from_Cn_squared(atmosphere.Cn_squared))
+print("Atmosphere2 Cn2:",atmosphere.Cn_squared)
+
+quit()
+
 
 plot_it = True
 lims = 0.5
